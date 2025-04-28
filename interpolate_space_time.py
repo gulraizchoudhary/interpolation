@@ -49,3 +49,34 @@ ax.set_zlabel('Time')
 ax.legend()
 plt.tight_layout()
 plt.show()
+
+# Step 4: Flatten (x,y,t) into a 1D vector
+flat1 = tr1_interp.flatten()
+flat2 = tr2_interp.flatten()
+
+
+X = np.vstack([flat1, flat2])
+
+# Step 6: Manual K-means
+def kmeans(X, K=2, num_iters=10):
+    np.random.seed(0)
+    indices = np.random.choice(len(X), K, replace=False)
+    centroids = X[indices]
+
+    for _ in range(num_iters):
+        # Assign points to the closest centroid
+        distances = np.linalg.norm(X[:, None, :] - centroids[None, :, :], axis=2)
+        labels = np.argmin(distances, axis=1)
+
+        # Update centroids
+        for k in range(K):
+            if np.sum(labels == k) > 0:
+                centroids[k] = X[labels == k].mean(axis=0)
+
+    return labels, centroids
+
+# Step 7: Run manual K-means
+labels, centroids = kmeans(X, K=2, num_iters=10)
+
+# Step 8: Print cluster labels
+print("Cluster labels:", labels)

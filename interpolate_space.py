@@ -46,12 +46,12 @@ plt.figure(figsize=(10, 6))
 
 # Original trajectories
 #plt.plot(tr1[:, 0], tr1[:, 1], 'o--', label='Original tr1')
-plt.plot(tr2[:, 0], tr2[:, 1], 'o--', label='Original tr2')
+#plt.plot(tr2[:, 0], tr2[:, 1], 'o--', label='Original tr2')
 
 # Interpolated trajectories
-#plt.plot(tr1_interp[:, 0], tr1_interp[:, 1], 's-', label='Interpolated tr1 (time-based)', alpha=0.7)
-#plt.plot(tr2_interp[:, 0], tr2_interp[:, 1], 's-', label='Interpolated tr2 (time-based)', alpha=0.7)
-plt.plot(tr3[:, 0], tr3[:, 1], 's-', label='Interpolated tr3', alpha=0.7)
+plt.plot(tr1_interp[:, 0], tr1_interp[:, 1], 's-', label='Interpolated tr1 (time-based)', alpha=0.7)
+plt.plot(tr2_interp[:, 0], tr2_interp[:, 1], 's-', label='Interpolated tr2 (time-based)', alpha=0.7)
+#plt.plot(tr3[:, 0], tr3[:, 1], 's-', label='Interpolated tr3', alpha=0.7)
 
 plt.title('Trajectory Interpolation with Time Preservation')
 plt.xlabel('X')
@@ -62,4 +62,4 @@ plt.axis('equal')
 plt.tight_layout()
 plt.show()
 
-tr3, d1 = subsample_trajectory(tr1)
+
