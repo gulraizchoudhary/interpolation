@@ -148,8 +148,8 @@ for centroid in centroids:
 fig = plt.figure(figsize=(12, 8))
 ax = fig.add_subplot(111, projection='3d')
 
-labels = [f"c{i+1}" for i in range(len(centroids_reshape))]
-for cent, color, label in zip(centroids_reshape, colors, labels):
+c_labels = [f"c{i+1}" for i in range(len(centroids_reshape))]
+for cent, color, label in zip(centroids_reshape, colors, c_labels):
     ax.plot(cent[:, 0], cent[:, 1], cent[:, 2], 'o-', color=color, label=label)
 
 ax.set_title('Centroids (X, Y, Time)', fontsize=15)
@@ -159,3 +159,33 @@ ax.set_zlabel('Time')
 ax.legend()
 plt.tight_layout()
 plt.show()
+
+
+# Make sure your cluster labels and colors are consistent
+unique_clusters = np.unique(labels)
+# Use your predefined colors list (7 colors in your code)
+# but only pick as many colors as clusters
+cluster_colors = colors[:len(unique_clusters)]
+
+# 3D plot for trajectories, colored by cluster
+fig = plt.figure(figsize=(12, 8))
+ax = fig.add_subplot(111, projection='3d')
+
+for traj_idx, traj in enumerate(interpolated_trajectories):
+    cluster_id = labels[traj_idx]  # cluster index of this trajectory
+    color = cluster_colors[cluster_id]
+    ax.plot(traj[:, 0], traj[:, 1], traj[:, 2], 'o-', color=color, label=f"Trajectory {traj_idx+1} (Cluster {cluster_id+1})")
+
+# Plot centroids with same color palette, for reference
+for cent, color, cluster_id in zip(centroids_reshape, cluster_colors, range(len(centroids_reshape))):
+    ax.plot(cent[:, 0], cent[:, 1], cent[:, 2], 's--', color=color, label=f"Centroid Cluster {cluster_id+1}")
+
+ax.set_title('3D Trajectories Colored by Cluster', fontsize=15)
+ax.set_xlabel('X')
+ax.set_ylabel('Y')
+ax.set_zlabel('Time')
+ax.legend(bbox_to_anchor=(1.05, 1), loc='upper left')  # legend outside plot
+plt.tight_layout()
+plt.show()
+
+
